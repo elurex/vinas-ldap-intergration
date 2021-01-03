@@ -142,7 +142,7 @@ olcDbIndex: displayName sub,eq
 ```
 
 ```shell
-ldapmodify -D 'cn=config' -W -f newindex.ldif
+ldapmodify -Q -Y EXTERNAL -H ldapi:/// -f newindex.ldif
 ```
 
 module.ldif
@@ -208,14 +208,14 @@ slapadd -b "dc=example,dc=com" -v -l new_ldap.ldif
 ## Install and setup LAM
 
 ```shell
-apt -y install apache2 php php-cgi libapache2-mod-php php-mbstring php-common php-pear git;
+apt -y install apache2 php php-cgi libapache2-mod-php php-mbstring php-common php-pear php-monolog php-psr-log git;
 a2enconf php7.2-cgi;
 systemctl reload apache2;
 
 apt -y install ldap-account-manager; #solve all dependancy;
 
-wget https://nchc.dl.sourceforge.net/project/lam/LAM/6.6/ldap-account-manager_6.6-1_all.deb;  #or the latest version;
-dpkg -i ldap-account-manager_6.6-1_all.deb;
+wget https://nchc.dl.sourceforge.net/project/lam/LAM/6.7/ldap-account-manager_6.7-1_all.deb;  #or the latest version;
+dpkg -i ldap-account-manager_6.7-1_all.deb;
 apt --fix-broken install;
 
 systemctl restart apache2;
@@ -223,6 +223,7 @@ systemctl restart apache2;
 cd /tmp/;
 git clone https://github.com/fuyuanli/vinas-ldap-intergration.git;
 mv /tmp/vinas-ldap-intergration/group.inc /usr/share/ldap-account-manager/lib/types/;
+mv /tmp/vinas-ldap-intergration/user.inc /usr/share/ldap-account-manager/lib/types/;
 mv /tmp/vinas-ldap-intergration/*.inc  /usr/share/ldap-account-manager/lib/modules/;
 ```
 
